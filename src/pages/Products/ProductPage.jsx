@@ -1,17 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams, Navigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { Clock, PackageIcon } from 'lucide-react';
+import HighlyRecommended from './HighlyRecommended/HighlyRecommended';
+import ProductDetails from '../../components/ProductDetails';
+import { renderStars } from '../../components/common/ReviewStars';
+import AddToCartButton from '../../components/Products/AddToCartButton';
+import { addToWishList, removeFromWishList } from '../../store/wishListSlice';
 import {
   fetchProductById,
   clearCurrentProduct,
 } from '../../store/productSlice';
-import ProductDetails from '../../components/ProductDetails';
-import { getRecommendedProducts } from '../../api';
-import ProductCard from '../../components/Products/ProductCard';
-import { Clock, PackageIcon } from 'lucide-react';
-import { renderStars } from '../../components/common/ReviewStars';
-import AddToCartButton from '../../components/Products/AddToCartButton';
-import { addToWishList, removeFromWishList } from '../../store/wishListSlice';
 
 export default function ProductPage() {
   const { id } = useParams();
@@ -20,24 +19,12 @@ export default function ProductPage() {
     (s) => s.products || {}
   );
 
-  const [recommendedProducts, setRecommendedProducts] = useState([]);
   const [fetchAttempted, setFetchAttempted] = useState(false);
 
   useEffect(() => {
     if (!id) return;
     dispatch(fetchProductById(id));
     setFetchAttempted(true);
-
-    const fetchRecommendedProducts = async (id) => {
-      try {
-        const products = await getRecommendedProducts(id);
-        setRecommendedProducts(products.data);
-      } catch (error) {
-        console.error('Error fetching recommended products:', error);
-      }
-    };
-
-    fetchRecommendedProducts(id);
     return () => {
       dispatch(clearCurrentProduct());
     };
@@ -79,7 +66,7 @@ export default function ProductPage() {
       <main className="max-w-6xl mx-auto p-6">
         <section className="flex flex-row w-full mt-4 max-w-[70vw] gap-8">
           {/* Left side section */}
-          <section className="Left-side flex-4 images-section">
+          <div className="Left-side flex-4 images-section">
             {/* Hero Image section */}
             <div className="hero-image-container relative  flex flex-row items-center justify-between ">
               {/* Previous Image */}
@@ -141,9 +128,9 @@ export default function ProductPage() {
                 alt={product.name}
               />
             </section>
-          </section>
+          </div>
           {/* Right Side Section */}
-          <section className="right-side flex-5 product-detail-section flex-col flex gap-3">
+          <div className="right-side flex-5 product-detail-section flex-col flex gap-3">
             {/* reviews */}
             <div className="flex items-center gap-2">
               {renderStars(product.rating)}
@@ -229,30 +216,14 @@ export default function ProductPage() {
                 </div>
               </div>
             </section>
-          </section>
+          </div>
         </section>
         {/* Additional Product Information */}
         <article>
           <ProductDetails product={product} />
         </article>
         {/* Recommended Products Section */}
-        {recommendedProducts?.length > 0 && (
-          <section className="my-12">
-            <h2 className="text-2xl font-semibold mb-4">
-              Highly Recommended Products
-            </h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6">
-              {recommendedProducts?.map((recProduct) => (
-                <ProductCard
-                  key={recProduct.id || recProduct._id}
-                  product={recProduct}
-                  ref={null}
-                  isWishlisted={isInWishlist(recProduct.id || recProduct._id)}
-                />
-              ))}
-            </div>
-          </section>
-        )}
+        <HighlyRecommended />
       </main>
     );
 }
