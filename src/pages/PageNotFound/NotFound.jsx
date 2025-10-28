@@ -1,61 +1,64 @@
 import { Link } from "react-router-dom";
-import { useEffect, useState } from "react";
 
 export default function NotFound() {
-  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
-
-  useEffect(() => {
-    const handleResize = () => setIsMobile(window.innerWidth < 768);
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
-
-  // Background and SVG assets based on device
-  const bgImage = isMobile
-    ? "/images/pnf-mob.png"
-    : "/images/notFoundLandscape.png";
-
-  const svg404 = isMobile
-    ? "/assets/404-mobile.svg"
-    : "/assets/404-desktop.svg";
-
-  const svgNotFound = isMobile
-    ? "/assets/notfound-mobile.svg"
-    : "/assets/notfound-desktop.svg";
-
   return (
-    <main
-      className="relative min-h-screen flex md:items-start md:justify-start justify-center items-center px-10 md:py-5 bg-cover bg-center text-white"
-      style={{ backgroundImage: `url(${bgImage})` }}
-    >
+    <main className="relative min-h-screen flex md:items-start md:justify-start justify-center items-center px-10 md:py-5 bg-cover bg-center text-white">
+
+      {/* Background Images */}
+      <picture>
+        {/* Desktop Background */}
+        <source media="(min-width: 768px)" srcSet="/images/notFoundLandscape.png" />
+        {/* Mobile Background */}
+        <img
+          src="/images/pnf-mob.png"
+          alt="Background"
+          className="absolute inset-0 w-full h-full object-cover"
+          loading="lazy"
+        />
+      </picture>
+
       {/* Overlay */}
       <div className="absolute inset-0 bg-black/40"></div>
 
       {/* Main Content */}
       <section className="relative z-10 flex flex-col justify-center items-center text-center px-6 md:px-12 py-6 max-w-3xl">
+
         {/* 404 SVG */}
-        <img
-          src={svg404}
-          alt="404 Illustration"
-          className="w-[280px] md:w-[400px] mb-4"
-          loading="lazy"
-        />
+        <picture>
+          <source media="(min-width: 768px)" srcSet="/assets/404-desktop.svg" />
+          <img
+            src="/assets/404-mobile.svg"
+            alt="404 Illustration"
+            className="w-[280px] md:w-[400px] mb-4"
+            loading="lazy"
+          />
+        </picture>
 
         {/* Not Found SVG */}
-        <img
-          src={svgNotFound}
-          alt="Not Found Text"
-          className="w-[200px] md:w-[300px] mb-6"
-          loading="lazy"
-        />
+        <picture>
+          <source media="(min-width: 768px)" srcSet="/assets/notfound-desktop.svg" />
+          <img
+            src="/assets/notfound-mobile.svg"
+            alt="Not Found Text"
+            className="w-[200px] md:w-[300px] mb-6"
+            loading="lazy"
+          />
+        </picture>
 
         {/* Text */}
-        <p className="uppercase text-base md:text-lg font-bold tracking-wide text-white" style={{ fontFamily: 'var(--font-inter)' }}>
+        <p
+          className="uppercase text-base md:text-lg font-bold tracking-wide text-white"
+          style={{ fontFamily: "var(--font-inter)" }}
+        >
           Oops! This page wandered off the workout plan.
         </p>
 
-        <p className="mt-4 md:text-sm text-xs leading-relaxed max-w-xl text-white" style={{ fontFamily: 'var(--font-inter)' }}>
-          Looks like the page you’re looking for doesn’t exist. But don’t worry — your fitness journey doesn’t stop here. Fuel your goals with{" "}
+        <p
+          className="mt-4 md:text-sm text-xs leading-relaxed max-w-xl text-white"
+          style={{ fontFamily: "var(--font-inter)" }}
+        >
+          Looks like the page you’re looking for doesn’t exist. But don’t worry — your fitness journey doesn’t stop here.
+          Fuel your goals with{" "}
           <span className="text-red-500 font-semibold">CoreX</span> supplements.
         </p>
 
