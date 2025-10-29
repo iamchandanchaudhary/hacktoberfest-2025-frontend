@@ -50,7 +50,7 @@
 }
 
 .stroke-title {
-  color: var(--color-white-light);
+  color: var(--color-white-back);
   -webkit-text-stroke: 3px var(--color-black);
   paint-order: stroke fill;
 }
@@ -250,4 +250,12 @@
 .close-icon:focus {
   transform: rotate(90deg) scale(1.1);
   /* color: #ef4444; */
+}
+
+/* Global page background and base text color */
+html,
+body {
+  height: 100%;
+  background-color: var(--color-white-back);
+  color: var(--color-black);
 }

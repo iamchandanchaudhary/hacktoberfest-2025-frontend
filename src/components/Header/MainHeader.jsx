@@ -41,7 +41,7 @@ export default function Header() {
       <TopHeader />
 
       {/* Main Header */}
-      <header className="bg-white shadow-md w-full fixed top-[48px] left-0 z-50">
+      <header className="bg-[#F7FAFF] shadow-md w-full fixed top-[48px] left-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             {/* Logo */}
@@ -149,7 +149,7 @@ export default function Header() {
 
         {/* Mobile Menu */}
         {mobileOpen && (
-          <div className="md:hidden bg-white shadow-md animate-fadeIn">
+          <div className="md:hidden bg-[#F7FAFF] shadow-md animate-fadeIn">
             <nav className="flex flex-col space-y-2 p-4">
               <button
                 onClick={() => setShopOpen(!shopOpen)}
